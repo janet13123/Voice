@@ -11,7 +11,7 @@ RATE = 44100
 # display formant bandwidths as dashed lines
 DISP_BANDWIDTHS = False
 # the recording time for the voice
-UPDATE_INTERVAL = 0.2
+UPDATE_INTERVAL = 0.5
 # the number of formants to display
 NUMBER_OF_FORMANTS = 4
 
@@ -41,7 +41,7 @@ def record_voice(outfn, duration, rate):
     return recording.flatten()
 
 # filename - WAV file to load
-# returns audio_data
+# returns sample_rate, audio_data
 def load_audio(filename):
     """Load audio from WAV file"""
     if os.path.exists(filename):
@@ -49,7 +49,7 @@ def load_audio(filename):
         # Convert to float if needed
         if audio_data.dtype == np.int16:
             audio_data = audio_data.astype(np.float64) / 32767.0
-        return audio_data
+        return sample_rate, audio_data
     else:
         raise FileNotFoundError(f"WAV file {filename} not found")
 
@@ -244,7 +244,8 @@ if __name__ == "__main__":
     outfn = "TEMP.wav"
     num_formants = NUMBER_OF_FORMANTS
 
-    yn = input("Record a voice and show analysis? :").upper()
+    #yn = input("Record a voice and show analysis? :")[0].upper()
+    yn = "Y"
 
     if yn != 'Y':
         print("Loading WAV file...")
@@ -253,7 +254,7 @@ if __name__ == "__main__":
         # outfn = "G3M1OQHL.wav"
         # outfn = "G3M2OQHL1s.wav"
         # outfn = "TEMP.WAV"
-        audio_data = load_audio(outfn)
+        _, audio_data = load_audio(outfn)
         print("len(audio_data)=",len(audio_data))
 
         # Perform analysis and plotting
@@ -262,7 +263,7 @@ if __name__ == "__main__":
         print("finished plot")
 
         pitch = find_pitch(audio_data, sample_rate)
-        print("Pitch = ", pitch)
+        print(f"Pitch = {pitch:.2f}")
     else:
         # Record voice
         print("Recording Voice...")
@@ -270,13 +271,14 @@ if __name__ == "__main__":
             recorded_audio = record_voice(outfn, duration, sample_rate)
 
             # Load audio from file (to verify save/load works)
-            audio_data = load_audio(outfn)
+            _, audio_data = load_audio(outfn)
 
             # Perform analysis and plotting
             plot_analysis(audio_data, num_formants, sample_rate, outfn)
 
             pitch = find_pitch(audio_data, sample_rate)
-            print("Pitch = ", pitch)
+            print(f"Pitch = {pitch:.2f}")
+
 
         except Exception as e:
             print(f"Error occurred: {e}")
