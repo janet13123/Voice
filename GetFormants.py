@@ -11,7 +11,7 @@ RATE = 44100
 # display formant bandwidths as dashed lines
 DISP_BANDWIDTHS = False
 # the recording time for the voice
-UPDATE_INTERVAL = 0.5
+RECORD_TIME = 0.5
 # the number of formants to display
 NUMBER_OF_FORMANTS = 4
 
@@ -195,8 +195,7 @@ def plot_analysis(audio_data, num_formants, sample_rate, filename):
                 if i == 0:  # Pitch
                     ax2.axvline(x=formant, color=color, linestyle='-', linewidth=2, label=f'{label}: {formant:.0f} Hz')
                 else:
-                    ax2.axvline(x=formant, color=color, linestyle='-', linewidth=2,
-                                label=f'{label}: {formant:.0f} +/- {bw:.0f} Hz')
+                    ax2.axvline(x=formant, color=color, linestyle='-', linewidth=2, label=f'{label}: {formant:.0f} +/- {bw:.0f} Hz')
                     ax2.axvline(x=formant + bw, color=color, linestyle='--', linewidth=2, alpha=0.4)
                     ax2.axvline(x=formant - bw, color=color, linestyle='--', linewidth=2, alpha=0.4)
     else:
@@ -205,8 +204,7 @@ def plot_analysis(audio_data, num_formants, sample_rate, filename):
                 if i == 0:  # Pitch
                     ax2.axvline(x=formant, color=color, linestyle='-', linewidth=2, label=f'{label}: {formant:.0f} Hz')
                 else:
-                    ax2.axvline(x=formant, color=color, linestyle='-', linewidth=2,
-                                label=f'{label}: {formant:.0f} +/- {bw:.0f} Hz')
+                    ax2.axvline(x=formant, color=color, linestyle='-', linewidth=2, label=f'{label}: {formant:.0f} +/- {bw:.0f} Hz')
 
     ax2.set_xlabel('Frequency (Hz)')
     ax2.set_ylabel('Magnitude (dB)')
@@ -238,14 +236,13 @@ if __name__ == "__main__":
     print("Voice Recording and Formant Analysis")
     print("=" * 40)
     sample_rate = RATE
-    duration = UPDATE_INTERVAL
+    duration = RECORD_TIME
     # outfn = "G3M2OQHL1s.wav"
     # outfn = "G3M1OQHL.wav"
     outfn = "TEMP.wav"
     num_formants = NUMBER_OF_FORMANTS
 
-    #yn = input("Record a voice and show analysis? :")[0].upper()
-    yn = "Y"
+    yn = "N"
 
     if yn != 'Y':
         print("Loading WAV file...")

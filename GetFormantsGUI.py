@@ -20,6 +20,20 @@ MAX_FREQ = 4000  # the max freq to plot
 DISP_BANDWIDTHS = False  # if True then also display the formant bandwidths in plot #3
 
 
+#add filename extension if it's not there
+# filename - input file name
+# extension to add - wav by default
+def add_filename_ext(filename, default_extension='WAV'):
+    """
+    Ensures a filename has a specific extension using os.path.
+    Adds the default_extension if no extension is found.
+    """
+    base, ext = os.path.splitext(filename)
+    if not ext:  # No extension found
+        return f"{filename}.{default_extension}"
+    return filename
+
+
 class GetFormantsGUI:
     def __init__(self, root):
         self.root = root
@@ -195,8 +209,7 @@ class GetFormantsGUI:
         try:
             directory = self.current_directory.get()
             if os.path.exists(directory):
-                files = [f for f in os.listdir(directory)
-                         if os.path.isfile(os.path.join(directory, f))]
+                files = [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
                 files.sort()
 
                 for file in files:
@@ -217,10 +230,11 @@ class GetFormantsGUI:
     def on_mode_change(self):
         """Handle mode change between Record Voice and Load File"""
         mode = self.mode_var.get()
+        self.update_file_list()
         if mode == "Record Voice":
-            self.filename_var.set("TEMP.WAV")
+            self.filename_var.set("")
         elif mode == "Load File":
-            self.filename_var.set("TEMP.WAV")
+            self.filename_var.set("")
 
     def process_action(self):
         """Main processing function"""
@@ -230,6 +244,7 @@ class GetFormantsGUI:
             self.process_record_voice()
         else:  # Load File
             self.process_load_file()
+        self.update_file_list()
 
     def process_record_voice(self):
         """Process voice recording"""
@@ -238,6 +253,7 @@ class GetFormantsGUI:
         if not filename:
             messagebox.showwarning("Warning", "Please enter a filename")
             return
+        filename = add_filename_ext(filename)
         self.time_length = REC_TIME
         self.n_samples = int(RATE * REC_TIME)
         audio_data = GetFormants.record_voice(filename, self.time_length, self.sample_rate)
@@ -255,6 +271,7 @@ class GetFormantsGUI:
             messagebox.showwarning("Warning", "Please select a file")
             return
 
+        #THIS IS WHERE WE ADD THE EXTENSION
         filepath = os.path.join(self.current_directory.get(), selected)
 
         self.sample_rate, audio_data = GetFormants.load_audio(selected)
@@ -300,9 +317,9 @@ class GetFormantsGUI:
         # Plot 3: FFT magnitude in dB with Formants and Pitch
         freqs_detailed = np.linspace(0, MAX_FREQ, 1000)
         # Interpolate magnitude spectrum for smoother display
-        #mask = freqs > 0
-        #magnitude_interp = np.interp(freqs_detailed, freqs[mask], magnitude[mask])
-        #mask = freqs > 0
+        # mask = freqs > 0
+        # magnitude_interp = np.interp(freqs_detailed, freqs[mask], magnitude[mask])
+        # mask = freqs > 0
         magnitude_interp = np.interp(freqs_detailed, freqs, magnitude)
         magnitude_db = 20 * np.log10(magnitude_interp + 1e-10)
 
