@@ -1,6 +1,6 @@
 Simple versions of tools to analyze a voice - display FFT and Formants.
 
-All of these require python to be installed:
+All of these require python to be installed and run from the command line:
 
 GetFormants.py - takes a snapshot of the voice and saves it into a file and 
                  also displays the FFT and Formants

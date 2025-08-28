@@ -57,7 +57,6 @@ class VoiceViewGUI:
                         fill=tk.Y,
                         padx=(0, 10))
 
-
         # # ADD COMBO BOXES WITH DROPDOWNS
         # # Chunk Size control - disabled for now
         # ttk.Label(left_frame,
