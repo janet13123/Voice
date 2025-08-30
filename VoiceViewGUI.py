@@ -57,6 +57,7 @@ class VoiceViewGUI:
                         fill=tk.Y,
                         padx=(0, 10))
 
+
         # # ADD COMBO BOXES WITH DROPDOWNS
         # # Chunk Size control - disabled for now
         # ttk.Label(left_frame,
@@ -411,9 +412,9 @@ class VoiceViewGUI:
 
     def find_pitch(self, audio_data):
         # returns average pitch, or 0 if cant find pitch
-        # 88 Hz = G2, 330 Hz = E4
+        # 88 Hz = G2, 330 Hz = E4, 659 = E5
         fmin = 88
-        fmax = 330
+        fmax = 659
 
         f0, voiced_flag, _ = librosa.pyin(self.audio_data, sr=self.sample_rate,
                                           fmin=fmin, fmax=fmax,
