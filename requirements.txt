@@ -1,0 +1,15 @@
+# TEST THESE, not sure what pip wants for these!!!!
+numpy
+matplotlib
+matplotlib.backends.backend_tkagg
+matplotlib.font_manager
+matplotlib.animation
+sounddevice
+scipy
+librosa
+os
+tkinter
+pyaudio
+time
+queue
+
