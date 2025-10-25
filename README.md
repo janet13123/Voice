@@ -1,5 +1,3 @@
-#  IM USING THIS AS AN EXAMPLE README.MD FILE
-
 # Voice Project
 
 **A small collection of programs to compare, measure, and  learn about various voice parameters.**
@@ -94,7 +92,7 @@ VoiceViewGUI.py
 
 3. **Install the dependencies**
 
-    pip install -r requirements.txt
+    pip install -r requirements.txt (has not been tested yet)
 
 3. **Run one the applications:**
 
